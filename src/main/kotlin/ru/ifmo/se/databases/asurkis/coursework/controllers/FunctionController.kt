@@ -11,22 +11,16 @@ class FunctionController(
     val humanRepository: HumanRepository,
     val tournamentRepository: TournamentRepository,
     val characterStatRepository: CharacterStatRepository,
-    val tournamentResultJoinedRepository: TournamentResultJoinedRepository,
     val artistRepository: ArtistRepository,
     val organizerRepository: OrganizerRepository,
     val playerRepository: PlayerRepository,
-    val sponsorRepository: SponsorRepository
+    val sponsorRepository: SponsorRepository,
 ) {
     @GetMapping("/humansByName")
     fun humansByName(name: String) = humanRepository.humansByName(name)
 
     @GetMapping("/tournamentsByPlace")
     fun tournamentByPlace(place: String) = tournamentRepository.tournamentsByPlace(place)
-
-    @GetMapping("/func")
-    fun func() {
-        characterStatRepository.modifyCharacterStat(9251, 101, 200)
-    }
 
     @PostMapping("/artist/addHuman")
     fun addArtistHuman(human: Human) =
@@ -43,4 +37,9 @@ class FunctionController(
     @PostMapping("/sponsor/addHuman")
     fun addSponsorHuman(human: Human) =
         sponsorRepository.save(Sponsor(humanRepository.save(human).id))
+
+    @PostMapping("/characterStat/modify")
+    fun modifyCharacterStat(character: Int, type: Int, value: Int) {
+        characterStatRepository.modifyCharacterStat(character, type, value)
+    }
 }

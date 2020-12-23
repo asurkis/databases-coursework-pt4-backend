@@ -25,13 +25,20 @@ class IdController(
     val gameRepository: GameRepository,
     val gameEventRepository: GameEventRepository,
     val tournamentResultRepository: TournamentResultRepository,
-    val tournamentResultJoinedRepository: TournamentResultJoinedRepository
+    val humanWithRolesRepository: HumanWithRolesRepository,
+    val tournamentWithLinksRepository: TournamentWithLinksRepository,
+    val tournamentResultWithLinksRepository: TournamentResultWithLinksRepository,
+    val characterWithLinksRepository: CharacterWithLinksRepository,
+    val characterStatWithTypeRepository: CharacterStatWithTypeRepository,
+    val sponsorContractWithLinksRepository: SponsorContractWithLinksRepository,
+    val gameEventWithLinksRepository: GameEventWithLinksRepository,
+    val performanceWithNameRepository: PerformanceWithNameRepository
 ) {
     @GetMapping("/human/{id}")
-    fun humanById(@PathVariable id: Int) = humanRepository.findById(id)
+    fun humanById(@PathVariable id: Int) = humanWithRolesRepository.findById(id)
 
     @GetMapping("/human/all")
-    fun allHumans() = humanRepository.findAll()
+    fun allHumans() = humanWithRolesRepository.findAll()
 
     @PostMapping("/human/add")
     fun addHuman(human: Human) = humanRepository.save(human)
@@ -72,11 +79,17 @@ class IdController(
     @PostMapping("/sponsor/addRole")
     fun addSponsorRole(sponsor: Sponsor) = sponsorRepository.save(sponsor)
 
+    @GetMapping("/sponsorContract/organizer/{id}")
+    fun sponsorContractByOrganizer(@PathVariable id: Int) = sponsorContractWithLinksRepository.findAllByOrganizer(id)
+
+    @GetMapping("/sponsorContract/sponsor/{id}")
+    fun sponsorContractBySponsor(@PathVariable id: Int) = sponsorContractWithLinksRepository.findAllBySponsor(id)
+
     @GetMapping("/sponsorContract/{id}")
-    fun sponsorContractById(@PathVariable id: Int) = sponsorContractRepository.findById(id)
+    fun sponsorContractById(@PathVariable id: Int) = sponsorContractWithLinksRepository.findById(id)
 
     @GetMapping("/sponsorContract/all")
-    fun allSponsorContracts() = sponsorContractRepository.findAll()
+    fun allSponsorContracts() = sponsorContractWithLinksRepository.findAll()
 
     @PostMapping("/sponsorContract/add")
     fun addSponsorContract(sponsorContract: SponsorContract) = sponsorContractRepository.save(sponsorContract)
@@ -109,10 +122,10 @@ class IdController(
     fun addRule(rule: Rule) = ruleRepository.save(rule)
 
     @GetMapping("/character/{id}")
-    fun characterById(@PathVariable id: Int) = characterRepository.findById(id)
+    fun characterById(@PathVariable id: Int) = characterWithLinksRepository.findById(id)
 
     @GetMapping("/character/all")
-    fun allCharacters() = characterRepository.findAll()
+    fun allCharacters() = characterWithLinksRepository.findAll()
 
     @PostMapping("/character/add")
     fun addCharacter(character: Character) = characterRepository.save(character)
@@ -121,29 +134,38 @@ class IdController(
     fun characterStatById(
         @PathVariable characterId: Int,
         @PathVariable typeId: Int
-    ) = characterStatRepository.findById(CharacterStatPK(characterId, typeId))
+    ) = characterStatWithTypeRepository.findById(CharacterStatPK(characterId, typeId))
 
     @GetMapping("/characterStat/all")
-    fun characterStatById() = characterStatRepository.findAll()
+    fun allCharacterStats() = characterStatWithTypeRepository.findAll()
 
     @GetMapping("/tournament/{id}")
-    fun tournamentById(@PathVariable id: Int) = tournamentRepository.findById(id)
+    fun tournamentById(@PathVariable id: Int) = tournamentWithLinksRepository.findById(id)
 
     @GetMapping("/tournament/all")
-    fun allTournaments() = tournamentRepository.findAll()
+    fun allTournaments() = tournamentWithLinksRepository.findAll()
 
     @PostMapping("/tournament/add")
     fun addTournament(tournament: Tournament) = tournamentRepository.save(tournament)
 
+    @GetMapping("/performance/artist/{id}")
+    fun performanceByArtist(@PathVariable id: Int) = performanceWithNameRepository.findAllByArtist(id)
+
+    @GetMapping("/performance/tournament/{id}")
+    fun performanceByTournament(@PathVariable id: Int) = performanceWithNameRepository.findAllByTournament(id)
+
     @GetMapping("/performance/{artistId}:{tournamentId}")
     fun performanceById(@PathVariable artistId: Int, @PathVariable tournamentId: Int) =
-        performanceRepository.findById(PerformancePK(artistId, tournamentId))
+        performanceWithNameRepository.findById(PerformancePK(artistId, tournamentId))
 
     @GetMapping("/performance/all")
-    fun allPerformances() = performanceRepository.findAll()
+    fun allPerformances() = performanceWithNameRepository.findAll()
 
     @PostMapping("/performance/add")
     fun addPerformance(performance: Performance) = performanceRepository.save(performance)
+
+    @GetMapping("/game/tournament/{id}")
+    fun gameByTournamentId(@PathVariable id: Int) = gameRepository.findAllByTournament(id)
 
     @GetMapping("/game/{id}")
     fun gameById(@PathVariable id: Int) = gameRepository.findById(id)
@@ -151,38 +173,28 @@ class IdController(
     @GetMapping("/game/all")
     fun allGames() = gameRepository.findAll()
 
+    @GetMapping("/gameEvent/game/{id}")
+    fun gameEventByGame(@PathVariable id: Int) = gameEventWithLinksRepository.findAllByGame(id)
+
     @GetMapping("/gameEvent/{id}")
-    fun gameEventById(@PathVariable id: Int) = gameEventRepository.findById(id)
+    fun gameEventById(@PathVariable id: Int) = gameEventWithLinksRepository.findById(id)
 
     @GetMapping("/gameEvent/all")
-    fun allGameEvents() = gameEventRepository.findAll()
+    fun allGameEvents() = gameEventWithLinksRepository.findAll()
 
     @PostMapping("/gameEvent/add")
     fun addGameEvent(gameEvent: GameEvent) = gameEventRepository.save(gameEvent)
 
     @GetMapping("/tournamentResult/player/{id}")
-    fun tournamentResultByPlayer(@PathVariable id: Int) = tournamentResultRepository.findAllByPlayer(id)
+    fun tournamentResultByPlayer(@PathVariable id: Int) = tournamentResultWithLinksRepository.findAllByPlayer(id)
 
     @GetMapping("/tournamentResult/tournament/{id}")
-    fun tournamentResultByTournament(@PathVariable id: Int) = tournamentResultRepository.findAllByTournament(id)
+    fun tournamentResultByTournament(@PathVariable id: Int) =
+        tournamentResultWithLinksRepository.findAllByTournament(id)
 
     @GetMapping("/tournamentResult/all")
-    fun allTournamentResults() = tournamentResultRepository.findAll()
+    fun allTournamentResults() = tournamentResultWithLinksRepository.findAll()
 
     @PostMapping("/tournamentResult/add")
     fun addTournamentResult(tournamentResult: TournamentResult) = tournamentResultRepository.save(tournamentResult)
-
-    @GetMapping("/tournamentResultJoined/{playerId}:{tournamentId}")
-    fun tournamentResultJoinedById(@PathVariable playerId: Int, @PathVariable tournamentId: Int) =
-        tournamentResultJoinedRepository.findById(TournamentResultPK(tournamentId, playerId))
-
-    @GetMapping("/tournamentResultJoined/player/{id}")
-    fun tournamentResultJoinedByPlayer(@PathVariable id: Int) = tournamentResultJoinedRepository.findAllByPlayer(id)
-
-    @GetMapping("/tournamentResultJoined/tournament/{id}")
-    fun tournamentResultJoinedByTournament(@PathVariable id: Int) =
-        tournamentResultJoinedRepository.findAllByTournament(id)
-
-    @GetMapping("/tournamentResultJoined/all")
-    fun allTournamentResultsJoined() = tournamentResultJoinedRepository.findAll()
 }

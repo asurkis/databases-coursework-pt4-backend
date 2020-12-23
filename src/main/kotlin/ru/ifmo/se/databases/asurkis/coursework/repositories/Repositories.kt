@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional
 import ru.ifmo.se.databases.asurkis.coursework.data.*
 
 interface ArtistRepository : CrudRepository<Artist, Int>
-
 interface OrganizerRepository : CrudRepository<Organizer, Int>
 interface PlayerRepository : CrudRepository<Player, Int>
 interface SponsorRepository : CrudRepository<Sponsor, Int>
@@ -17,15 +16,39 @@ interface CharacterStatTypeRepository : CrudRepository<CharacterStatType, Int>
 interface RuleRepository : CrudRepository<Rule, Int>
 interface CharacterRepository : CrudRepository<Character, Int>
 interface PerformanceRepository : CrudRepository<Performance, PerformancePK>
-interface GameRepository : CrudRepository<Game, Int>
 interface GameEventRepository : CrudRepository<GameEvent, Int>
+interface TournamentResultRepository : CrudRepository<TournamentResult, TournamentResultPK>
+
+interface HumanWithRolesRepository : CrudRepository<HumanWithRoles, Int>
+interface CharacterWithLinksRepository : CrudRepository<CharacterWithLinks, Int>
+interface CharacterStatWithTypeRepository : CrudRepository<CharacterStatWithType, CharacterStatPK>
+
+interface SponsorContractWithLinksRepository : CrudRepository<SponsorContractWithLinks, Int> {
+    fun findAllByOrganizer(organizer: Int): Iterable<SponsorContractWithLinks>
+    fun findAllBySponsor(sponsor: Int): Iterable<SponsorContractWithLinks>
+}
+
+interface GameEventWithLinksRepository : CrudRepository<GameEventWithLinks, Int> {
+    fun findAllByGame(game: Int): Iterable<GameEventWithLinks>
+}
+
+interface GameRepository : CrudRepository<Game, Int> {
+    fun findAllByTournament(tournament: Int): Iterable<Game>
+}
+
+interface PerformanceWithNameRepository : CrudRepository<PerformanceWithName, PerformancePK> {
+    fun findAllByArtist(artist: Int): Iterable<PerformanceWithName>
+    fun findAllByTournament(tournament: Int): Iterable<PerformanceWithName>
+}
 
 interface CharacterStatRepository : CrudRepository<CharacterStat, CharacterStatPK> {
     @Transactional
     @Modifying
-    @Query("UPDATE CharacterStat cs SET cs.value = :new_value " +
-                   "WHERE cs.character = :arg_character " +
-                   "AND cs.type = :arg_type")
+    @Query(
+        "UPDATE CharacterStat cs SET cs.value = :new_value " +
+                "WHERE cs.character = :arg_character " +
+                "AND cs.type = :arg_type"
+    )
     fun modifyCharacterStat(arg_character: Int, arg_type: Int, new_value: Int)
 }
 
@@ -39,12 +62,12 @@ interface TournamentRepository : CrudRepository<Tournament, Int> {
     fun tournamentsByPlace(arg_place: String): Iterable<Tournament>
 }
 
-interface TournamentResultRepository : CrudRepository<TournamentResult, TournamentResultPK> {
-    fun findAllByTournament(tournament: Int): Iterable<TournamentResult>
-    fun findAllByPlayer(player: Int): Iterable<TournamentResult>
+interface TournamentWithLinksRepository : CrudRepository<TournamentWithLinks, Int> {
+    @Query("SELECT t FROM TournamentWithLinks t WHERE t.place LIKE :arg_place")
+    fun tournamentsByPlace(arg_place: String): Iterable<Tournament>
 }
 
-interface TournamentResultJoinedRepository : CrudRepository<TournamentResultJoined, TournamentResultPK> {
-    fun findAllByTournament(tournament: Int): Iterable<TournamentResultJoined>
-    fun findAllByPlayer(player: Int): Iterable<TournamentResultJoined>
+interface TournamentResultWithLinksRepository : CrudRepository<TournamentResultWithLinks, TournamentResultPK> {
+    fun findAllByTournament(tournament: Int): Iterable<TournamentResultWithLinks>
+    fun findAllByPlayer(player: Int): Iterable<TournamentResultWithLinks>
 }

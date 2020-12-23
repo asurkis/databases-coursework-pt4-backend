@@ -97,10 +97,8 @@ data class CharacterStatPK(@Id var character: Int, @Id var type: Int) : Serializ
 @Table(name = "character_stat")
 @IdClass(CharacterStatPK::class)
 data class CharacterStat(
-    @Id
-    var character: Int,
-    @Id
-    var type: Int,
+    @Id var character: Int,
+    @Id var type: Int,
     var value: Int,
 )
 
@@ -163,22 +161,95 @@ data class TournamentResult(
 )
 
 @Entity
-@Table(name = "tournament_result_joined_view")
-@IdClass(TournamentResultPK::class)
-data class TournamentResultJoined(
-    @Id var player: Int,
-    @Id var tournament: Int,
+@Table(name = "human_with_roles_view")
+data class HumanWithRoles(
+    @Id var id: Int = 0,
     var name: String,
     var info: String,
     var phone: String?,
     var email: String?,
     var telegram: String?,
     var vk: String?,
-    var physical_place: String,
+    var is_artist: Boolean = false,
+    var is_organizer: Boolean = false,
+    var is_player: Boolean = false,
+    var is_sponsor: Boolean = false,
+)
+
+@Entity
+@Table(name = "tournament_result_joined_view")
+@IdClass(TournamentResultPK::class)
+data class TournamentResultWithLinks(
+    @Id var player: Int,
+    @Id var tournament: Int,
+    var name: String,
+    var score: Int?,
+    var place: Int?,
+)
+
+@Entity
+@Table(name = "tournament_rule_set_joined_view")
+data class TournamentWithLinks(
+    @Id var id: Int = 0,
+    var place: String,
     var start_date: Timestamp,
     var finish_date: Timestamp,
     var organizer: Int,
     var rule_set: Int,
-    var score: Int?,
-    var ladder_place: Int?,
+    var rule_set_name: String,
+)
+
+@Entity
+@Table(name = "character_rule_set_human_joined_view")
+data class CharacterWithLinks(
+    @Id var id: Int = 0,
+    var name: String,
+    var rule_set: Int,
+    var player: Int,
+    var player_name: String,
+    var result_set_name: String,
+)
+
+@Entity
+@Table(name = "character_stat_value_and_type_joined_view")
+@IdClass(CharacterStatPK::class)
+data class CharacterStatWithType(
+    @Id var character: Int,
+    @Id var type: Int,
+    var type_name: String,
+    var value: Int
+)
+
+@Entity
+@Table(name = "sponsor_contract_with_names_view")
+data class SponsorContractWithLinks(
+    @Id var id: Int = 0,
+    var sponsor: Int,
+    var organizer: Int,
+    var info: String,
+    var organizer_name: String,
+    var sponsor_name: String,
+)
+
+@Entity
+@Table(name = "game_event_agent_object_joined_view")
+data class GameEventWithLinks(
+    @Id var id: Int = 0,
+    var game: Int,
+    var agent: Int,
+    var `object`: Int,
+    var description: String,
+    var time: Timestamp,
+    var rule_applied: Int,
+    var agent_name: String,
+    var object_name: String,
+)
+
+@Entity
+@Table(name = "artist_performance_joined_view")
+@IdClass(PerformancePK::class)
+data class PerformanceWithName(
+    @Id var artist: Int = 0,
+    @Id var tournament: Int = 0,
+    var name: String,
 )
