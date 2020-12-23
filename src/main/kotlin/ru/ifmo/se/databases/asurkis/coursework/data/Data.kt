@@ -20,11 +20,7 @@ data class Human(
 
 @Entity
 @Table(name = "artist")
-data class Artist(
-    @Id var human: Int,
-//    @ManyToMany // (mappedBy = "performance")
-//    var performedAt: Set<Tournament>
-)
+data class Artist(@Id var human: Int)
 
 @Entity
 @Table(name = "artist")
@@ -44,10 +40,8 @@ data class SponsorContract(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    @ManyToOne
-    var sponsor: Sponsor,
-    @ManyToOne
-    var organizer: Organizer,
+    var sponsor: Int,
+    var organizer: Int,
     var info: String,
 )
 
@@ -66,8 +60,7 @@ data class CharacterStatType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    @ManyToOne
-    var rule_set: RuleSet,
+    var rule_set: Int,
     var name: String,
     var description: String,
     var default_value: Int?,
@@ -79,11 +72,9 @@ data class Rule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    @ManyToOne
-    var rule_set: RuleSet,
+    var rule_set: Int,
     var condition: String,
-    @ManyToOne
-    var stat_to_modify: CharacterStatType,
+    var stat_to_modify: Int,
     var action_with_stat: String,
     var value_of_modification: Int,
 )
@@ -95,10 +86,8 @@ data class Character(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
     var name: String,
-    @ManyToOne
-    var rule_set: RuleSet,
-    @ManyToOne
-    var player: Player,
+    var rule_set: Int,
+    var player: Int,
 )
 
 @Embeddable
@@ -124,26 +113,18 @@ data class Tournament(
     var place: String,
     var start_date: Timestamp,
     var finish_date: Timestamp,
-    @ManyToOne
-    var organizer: Organizer,
-    @ManyToOne
-    var rule_set: RuleSet,
-//    @ManyToMany
-//    var artistsPerformed: Set<Artist>,
+    var organizer: Int,
+    var rule_set: Int,
 )
 
-data class PerformancePK(var artist: Artist, var tournament: Tournament) : Serializable
+data class PerformancePK(var artist: Int = 0, var tournament: Int = 0) : Serializable
 
 @Entity
 @Table(name = "performance")
 @IdClass(PerformancePK::class)
 data class Performance(
-    @Id
-    @ManyToOne
-    var artist: Artist,
-    @Id
-    @ManyToOne
-    var tournament: Tournament,
+    @Id var artist: Int = 0,
+    @Id var tournament: Int = 0,
 )
 
 @Entity
@@ -152,8 +133,7 @@ data class Game(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    @ManyToOne
-    var tournament: Tournament
+    var tournament: Int,
 )
 
 @Entity
@@ -162,28 +142,22 @@ data class GameEvent(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    @ManyToOne
-    var game: Game,
-    @ManyToOne
-    var agent: Character,
-    @ManyToOne
-    var `object`: Character,
+    var game: Int,
+    var agent: Int,
+    var `object`: Int,
     var description: String,
     var time: Timestamp,
-    @ManyToOne
-    var rule_applied: Rule,
+    var rule_applied: Int,
 )
 
-data class TournamentResultPK(var tournament: Int, var player: Int): Serializable
+data class TournamentResultPK(var player: Int = 0, var tournament: Int = 0) : Serializable
 
 @Entity
 @Table(name = "tournament_result")
 @IdClass(TournamentResultPK::class)
 data class TournamentResult(
-    @Id
-    var tournament: Int,
-    @Id
-    var player: Int,
+    @Id var player: Int = 0,
+    @Id var tournament: Int = 0,
     var score: Int?,
     var place: Int?,
 )
@@ -192,23 +166,19 @@ data class TournamentResult(
 @Table(name = "tournament_result_joined_view")
 @IdClass(TournamentResultPK::class)
 data class TournamentResultJoined(
-    @Id
-    var player: Int,
+    @Id var player: Int,
+    @Id var tournament: Int,
     var name: String,
     var info: String,
     var phone: String?,
     var email: String?,
     var telegram: String?,
     var vk: String?,
-    @Id
-    var tournament: Int,
     var physical_place: String,
     var start_date: Timestamp,
     var finish_date: Timestamp,
-    @ManyToOne
-    var organizer: Organizer,
-    @ManyToOne
-    var rule_set: RuleSet,
+    var organizer: Int,
+    var rule_set: Int,
     var score: Int?,
     var ladder_place: Int?,
 )
