@@ -14,7 +14,7 @@ class FunctionController(
     val artistRepository: ArtistRepository,
     val organizerRepository: OrganizerRepository,
     val playerRepository: PlayerRepository,
-    val sponsorRepository: SponsorRepository,
+    val sponsorRepository: SponsorRepository
 ) {
     @GetMapping("/humansByName")
     fun humansByName(name: String) = humanRepository.humansByName(name)

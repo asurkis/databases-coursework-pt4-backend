@@ -15,7 +15,7 @@ data class Human(
     var phone: String?,
     var email: String?,
     var telegram: String?,
-    var vk: String?,
+    var vk: String?
 ) : Serializable
 
 @Entity
@@ -42,7 +42,7 @@ data class SponsorContract(
     var id: Int = 0,
     var sponsor: Int,
     var organizer: Int,
-    var info: String,
+    var info: String
 )
 
 @Entity
@@ -51,7 +51,7 @@ data class RuleSet(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    var name: String,
+    var name: String
 )
 
 @Entity
@@ -63,7 +63,7 @@ data class CharacterStatType(
     var rule_set: Int,
     var name: String,
     var description: String,
-    var default_value: Int?,
+    var default_value: Int?
 )
 
 @Entity
@@ -76,7 +76,7 @@ data class Rule(
     var condition: String,
     var stat_to_modify: Int,
     var action_with_stat: String,
-    var value_of_modification: Int,
+    var value_of_modification: Int
 )
 
 @Entity
@@ -87,7 +87,7 @@ data class Character(
     var id: Int = 0,
     var name: String,
     var rule_set: Int,
-    var player: Int,
+    var player: Int
 )
 
 @Embeddable
@@ -99,7 +99,7 @@ data class CharacterStatPK(@Id var character: Int, @Id var type: Int) : Serializ
 data class CharacterStat(
     @Id var character: Int,
     @Id var type: Int,
-    var value: Int,
+    var value: Int
 )
 
 @Entity
@@ -112,7 +112,7 @@ data class Tournament(
     var start_date: Timestamp,
     var finish_date: Timestamp,
     var organizer: Int,
-    var rule_set: Int,
+    var rule_set: Int
 )
 
 data class PerformancePK(var artist: Int = 0, var tournament: Int = 0) : Serializable
@@ -122,7 +122,7 @@ data class PerformancePK(var artist: Int = 0, var tournament: Int = 0) : Seriali
 @IdClass(PerformancePK::class)
 data class Performance(
     @Id var artist: Int = 0,
-    @Id var tournament: Int = 0,
+    @Id var tournament: Int = 0
 )
 
 @Entity
@@ -131,7 +131,7 @@ data class Game(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    var tournament: Int,
+    var tournament: Int
 )
 
 @Entity
@@ -145,7 +145,7 @@ data class GameEvent(
     var `object`: Int,
     var description: String,
     var time: Timestamp,
-    var rule_applied: Int,
+    var rule_applied: Int
 )
 
 data class TournamentResultPK(var player: Int = 0, var tournament: Int = 0) : Serializable
@@ -157,7 +157,7 @@ data class TournamentResult(
     @Id var player: Int = 0,
     @Id var tournament: Int = 0,
     var score: Int?,
-    var place: Int?,
+    var place: Int?
 )
 
 @Entity
@@ -173,7 +173,7 @@ data class HumanWithRoles(
     var is_artist: Boolean = false,
     var is_organizer: Boolean = false,
     var is_player: Boolean = false,
-    var is_sponsor: Boolean = false,
+    var is_sponsor: Boolean = false
 )
 
 @Entity
@@ -184,7 +184,7 @@ data class TournamentResultWithLinks(
     @Id var tournament: Int,
     var name: String,
     var score: Int?,
-    var place: Int?,
+    var place: Int?
 )
 
 @Entity
@@ -196,7 +196,7 @@ data class TournamentWithLinks(
     var finish_date: Timestamp,
     var organizer: Int,
     var rule_set: Int,
-    var rule_set_name: String,
+    var rule_set_name: String
 )
 
 @Entity
@@ -207,7 +207,7 @@ data class CharacterWithLinks(
     var rule_set: Int,
     var player: Int,
     var player_name: String,
-    var result_set_name: String,
+    var result_set_name: String
 )
 
 @Entity
@@ -228,7 +228,7 @@ data class SponsorContractWithLinks(
     var organizer: Int,
     var info: String,
     var organizer_name: String,
-    var sponsor_name: String,
+    var sponsor_name: String
 )
 
 @Entity
@@ -242,7 +242,7 @@ data class GameEventWithLinks(
     var time: Timestamp,
     var rule_applied: Int,
     var agent_name: String,
-    var object_name: String,
+    var object_name: String
 )
 
 @Entity
@@ -251,5 +251,5 @@ data class GameEventWithLinks(
 data class PerformanceWithName(
     @Id var artist: Int = 0,
     @Id var tournament: Int = 0,
-    var name: String,
+    var name: String
 )
