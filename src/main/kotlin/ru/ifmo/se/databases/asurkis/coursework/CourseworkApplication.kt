@@ -15,6 +15,7 @@ class CourseworkApplication {
                 .allowCredentials(true)
                 .allowedHeaders("*")
                 .allowedMethods("*")
+                .allowedOrigins("*")
         }
     }
 }
