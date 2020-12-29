@@ -136,6 +136,9 @@ class IdController(
         @PathVariable typeId: Int
     ) = characterStatWithTypeRepository.findById(CharacterStatPK(characterId, typeId))
 
+    @GetMapping("/characterStat/character/{id}")
+    fun characterStatByCharacter(@PathVariable id: Int) = characterStatWithTypeRepository.findAllByCharacter(id)
+
     @GetMapping("/characterStat/all")
     fun allCharacterStats() = characterStatWithTypeRepository.findAll()
 

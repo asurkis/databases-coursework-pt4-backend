@@ -20,7 +20,10 @@ interface TournamentResultRepository : CrudRepository<TournamentResult, Tourname
 interface HumanWithRolesRepository : CrudRepository<HumanWithRoles, Int>
 
 interface CharacterWithLinksRepository : CrudRepository<CharacterWithLinks, Int>
-interface CharacterStatWithTypeRepository : CrudRepository<CharacterStatWithType, CharacterStatPK>
+
+interface CharacterStatWithTypeRepository : CrudRepository<CharacterStatWithType, CharacterStatPK> {
+    fun findAllByCharacter(character: Int): Iterable<CharacterStatWithType>
+}
 
 interface PerformanceRepository : CrudRepository<Performance, PerformancePK> {
     fun findAllByArtist(artist: Int): Iterable<Performance>
