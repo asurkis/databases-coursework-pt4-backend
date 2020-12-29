@@ -15,7 +15,7 @@ class CourseworkApplication {
                 .allowCredentials(true)
                 .allowedHeaders("*")
                 .allowedMethods("*")
-                .allowedOrigins("*")
+                .allowedOrigins("http://localhost:8081")
         }
     }
 }

@@ -190,7 +190,7 @@ data class TournamentResultWithLinks(
 @Entity
 @Table(name = "tournament_rule_set_joined_view")
 data class TournamentWithLinks(
-    @Id var id: Int = 0,
+    @Id var tournament: Int = 0,
     var place: String,
     var start_date: Timestamp,
     var finish_date: Timestamp,
