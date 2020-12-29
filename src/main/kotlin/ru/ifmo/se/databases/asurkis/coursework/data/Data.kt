@@ -281,7 +281,7 @@ data class PerformanceWithName(
 )
 
 @Entity
-@Table(name = "rule")
+@Table(name = "rule_with_link")
 data class RuleWithLinks(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
