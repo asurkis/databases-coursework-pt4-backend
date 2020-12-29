@@ -246,7 +246,7 @@ data class GameEventWithLinks(
 )
 
 @Entity
-@Table(name = "artist_performance_joined_view")
+@Table(name = "artist_performances_joined_view")
 @IdClass(PerformancePK::class)
 data class PerformanceWithName(
     @Id var artist: Int = 0,
