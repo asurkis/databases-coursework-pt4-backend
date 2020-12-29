@@ -53,6 +53,6 @@ class FunctionController(
 
     @GetMapping("/artist/tournament/{id}")
     fun artistsByTournament(@PathVariable id: Int) =
-        performanceRepository.findAllByArtist(id).map { humanWithRolesRepository.findById(it.artist) }
+        performanceRepository.findAllByTournament(id).map { humanWithRolesRepository.findById(it.artist) }
 
 }
