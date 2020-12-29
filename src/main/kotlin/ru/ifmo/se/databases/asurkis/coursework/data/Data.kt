@@ -229,7 +229,7 @@ data class CharacterWithLinks(
     @Column(name="player_name")
     var playerName: String,
     @Column(name="rule_set_name")
-    var resultSetName: String
+    var ruleSetName: String
 )
 
 @Entity
