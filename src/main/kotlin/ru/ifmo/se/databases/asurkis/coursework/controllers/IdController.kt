@@ -32,7 +32,8 @@ class IdController(
     val characterStatWithTypeRepository: CharacterStatWithTypeRepository,
     val sponsorContractWithLinksRepository: SponsorContractWithLinksRepository,
     val gameEventWithLinksRepository: GameEventWithLinksRepository,
-    val performanceWithNameRepository: PerformanceWithNameRepository
+    val performanceWithNameRepository: PerformanceWithNameRepository,
+    val ruleWithLinksRepository: RuleWithLinksRepository
 ) {
     @GetMapping("/human/{id}")
     fun humanById(@PathVariable id: Int) = humanWithRolesRepository.findById(id)
@@ -113,13 +114,13 @@ class IdController(
     fun addCharacterStatType(characterStatType: CharacterStatType) = characterStatTypeRepository.save(characterStatType)
 
     @GetMapping("/rule/{id}")
-    fun ruleById(@PathVariable id: Int) = ruleRepository.findById(id)
+    fun ruleById(@PathVariable id: Int) = ruleWithLinksRepository.findById(id)
 
     @GetMapping("/rule/set/{id}")
-    fun ruleByRuleSet(@PathVariable id: Int) = ruleRepository.findAllByRuleSet(id)
+    fun ruleByRuleSet(@PathVariable id: Int) = ruleWithLinksRepository.findAllByRuleSet(id)
 
     @GetMapping("/rule/all")
-    fun allRules() = ruleRepository.findAll()
+    fun allRules() = ruleWithLinksRepository.findAll()
 
     @PostMapping("/rule/add")
     fun addRule(rule: Rule) = ruleRepository.save(rule)

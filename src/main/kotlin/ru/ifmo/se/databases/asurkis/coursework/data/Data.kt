@@ -279,3 +279,22 @@ data class PerformanceWithName(
     @Id var tournament: Int = 0,
     var name: String
 )
+
+@Entity
+@Table(name = "rule")
+data class RuleWithLinks(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int = 0,
+    @Column(name = "rule_set")
+    var ruleSet: Int,
+    var condition: String,
+    @Column(name = "stat_to_modify")
+    var statToModify: Int,
+    @Column(name = "stat_name")
+    var statName: String,
+    @Column(name = "action_with_stat")
+    var actionWithStat: String,
+    @Column(name = "value_of_modification")
+    var valueOfModification: Int
+)
