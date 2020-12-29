@@ -115,6 +115,9 @@ class IdController(
     @GetMapping("/rule/{id}")
     fun ruleById(@PathVariable id: Int) = ruleRepository.findById(id)
 
+    @GetMapping("/rule/set/{id}")
+    fun ruleByRuleSet(@PathVariable id: Int) = ruleRepository.findAllByRuleSet(id)
+
     @GetMapping("/rule/all")
     fun allRules() = ruleRepository.findAll()
 

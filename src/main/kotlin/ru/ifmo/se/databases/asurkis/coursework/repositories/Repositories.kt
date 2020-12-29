@@ -13,13 +13,15 @@ interface SponsorRepository : CrudRepository<Sponsor, Int>
 interface SponsorContractRepository : CrudRepository<SponsorContract, Int>
 interface RuleSetRepository : CrudRepository<RuleSet, Int>
 interface CharacterStatTypeRepository : CrudRepository<CharacterStatType, Int>
-interface RuleRepository : CrudRepository<Rule, Int>
 interface CharacterRepository : CrudRepository<Character, Int>
 interface GameEventRepository : CrudRepository<GameEvent, Int>
 interface TournamentResultRepository : CrudRepository<TournamentResult, TournamentResultPK>
 interface HumanWithRolesRepository : CrudRepository<HumanWithRoles, Int>
-
 interface CharacterWithLinksRepository : CrudRepository<CharacterWithLinks, Int>
+
+interface RuleRepository : CrudRepository<Rule, Int> {
+    fun findAllByRuleSet(rule_set: Int): Iterable<Rule>
+}
 
 interface CharacterStatWithTypeRepository : CrudRepository<CharacterStatWithType, CharacterStatPK> {
     fun findAllByCharacter(character: Int): Iterable<CharacterStatWithType>

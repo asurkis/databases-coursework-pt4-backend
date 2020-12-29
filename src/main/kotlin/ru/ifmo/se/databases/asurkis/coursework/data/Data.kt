@@ -60,10 +60,12 @@ data class CharacterStatType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    var rule_set: Int,
+    @Column(name="rule_set")
+    var ruleSet: Int,
     var name: String,
     var description: String,
-    var default_value: Int?
+    @Column(name="default_value")
+    var defaultValue: Int?
 )
 
 @Entity
@@ -72,11 +74,15 @@ data class Rule(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
-    var rule_set: Int,
+    @Column(name = "rule_set")
+    var ruleSet: Int,
     var condition: String,
-    var stat_to_modify: Int,
-    var action_with_stat: String,
-    var value_of_modification: Int
+    @Column(name = "stat_to_modify")
+    var statToModify: Int,
+    @Column(name = "action_with_stat")
+    var actionWithStat: String,
+    @Column(name = "value_of_modification")
+    var valueOfModification: Int
 )
 
 @Entity
@@ -86,7 +92,8 @@ data class Character(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
     var name: String,
-    var rule_set: Int,
+    @Column(name = "rule_set")
+    var ruleSet: Int,
     var player: Int
 )
 
@@ -109,10 +116,13 @@ data class Tournament(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
     var place: String,
-    var start_date: Timestamp,
-    var finish_date: Timestamp,
+    @Column(name = "start_date")
+    var startDate: Timestamp,
+    @Column(name = "finish_date")
+    var finishDate: Timestamp,
     var organizer: Int,
-    var rule_set: Int
+    @Column(name = "rule_set")
+    var ruleSet: Int
 )
 
 data class PerformancePK(var artist: Int = 0, var tournament: Int = 0) : Serializable
@@ -145,7 +155,8 @@ data class GameEvent(
     var `object`: Int,
     var description: String,
     var time: Timestamp,
-    var rule_applied: Int
+    @Column(name = "rule_applied")
+    var ruleApplied: Int
 )
 
 data class TournamentResultPK(var player: Int = 0, var tournament: Int = 0) : Serializable
@@ -170,10 +181,14 @@ data class HumanWithRoles(
     var email: String?,
     var telegram: String?,
     var vk: String?,
-    var is_artist: Boolean = false,
-    var is_organizer: Boolean = false,
-    var is_player: Boolean = false,
-    var is_sponsor: Boolean = false
+    @Column(name="is_artist")
+    var isArtist: Boolean = false,
+    @Column(name="is_organizer")
+    var isOrganizer: Boolean = false,
+    @Column(name="is_player")
+    var isPlayer: Boolean = false,
+    @Column(name="is_sponsor")
+    var isSponsor: Boolean = false
 )
 
 @Entity
@@ -192,11 +207,15 @@ data class TournamentResultWithLinks(
 data class TournamentWithLinks(
     @Id var tournament: Int = 0,
     var place: String,
-    var start_date: Timestamp,
-    var finish_date: Timestamp,
+    @Column(name="start_date")
+    var startDate: Timestamp,
+    @Column(name="finish_date")
+    var finishDate: Timestamp,
     var organizer: Int,
-    var rule_set: Int,
-    var rule_set_name: String
+    @Column(name="rule_set")
+    var ruleSet: Int,
+    @Column(name="rule_set_name")
+    var ruleSetName: String
 )
 
 @Entity
@@ -204,10 +223,13 @@ data class TournamentWithLinks(
 data class CharacterWithLinks(
     @Id var id: Int = 0,
     var name: String,
-    var rule_set: Int,
+    @Column(name="rule_set")
+    var ruleSet: Int,
     var player: Int,
-    var player_name: String,
-    var result_set_name: String
+    @Column(name="player_name")
+    var playerName: String,
+    @Column(name="rule_set_name")
+    var resultSetName: String
 )
 
 @Entity
@@ -216,7 +238,8 @@ data class CharacterWithLinks(
 data class CharacterStatWithType(
     @Id var character: Int,
     @Id var type: Int,
-    var type_name: String,
+    @Column(name="type_name")
+    var typeName: String,
     var value: Int
 )
 
@@ -240,9 +263,12 @@ data class GameEventWithLinks(
     var `object`: Int,
     var description: String,
     var time: Timestamp,
-    var rule_applied: Int,
-    var agent_name: String,
-    var object_name: String
+    @Column(name="rule_applied")
+    var ruleApplied: Int,
+    @Column(name="agent_name")
+    var agentName: String,
+    @Column(name="object_name")
+    var objectName: String
 )
 
 @Entity
