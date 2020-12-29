@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.ifmo.se.databases.asurkis.coursework.data.*
 import ru.ifmo.se.databases.asurkis.coursework.repositories.*
+import java.util.*
 
 @RestController
 class FunctionController(
@@ -18,7 +19,8 @@ class FunctionController(
     val sponsorRepository: SponsorRepository,
     val performanceRepository: PerformanceRepository,
     val tournamentWithLinksRepository: TournamentWithLinksRepository,
-    val humanWithRolesRepository: HumanWithRolesRepository
+    val humanWithRolesRepository: HumanWithRolesRepository,
+    val performanceWithNameRepository: PerformanceWithNameRepository
 ) {
     @GetMapping("/humansByName")
     fun humansByName(name: String) = humanRepository.humansByName(name)
@@ -57,4 +59,11 @@ class FunctionController(
 
     @GetMapping("/artist/byTournamentList")
     fun artistsByMultipleTournaments(idx: Array<Int>) = idx.map { artistsByTournament(it) }
+
+    @GetMapping("/allTournamentsAndArtists")
+    fun allTournamentsAndArtists(): Pair<Iterable<Tournament>, Iterable<Iterable<PerformanceWithName>>> {
+        val tournaments = tournamentRepository.findAll()
+        val artists = tournaments.map { performanceWithNameRepository.findAllByTournament(it.id) }
+        return Pair(tournaments, artists)
+    }
 }
