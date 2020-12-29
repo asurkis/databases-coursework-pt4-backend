@@ -1,6 +1,7 @@
 package ru.ifmo.se.databases.asurkis.coursework.controllers
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.ifmo.se.databases.asurkis.coursework.data.*
@@ -14,7 +15,9 @@ class FunctionController(
     val artistRepository: ArtistRepository,
     val organizerRepository: OrganizerRepository,
     val playerRepository: PlayerRepository,
-    val sponsorRepository: SponsorRepository
+    val sponsorRepository: SponsorRepository,
+    val performanceRepository: PerformanceRepository,
+    val tournamentWithLinksRepository: TournamentWithLinksRepository
 ) {
     @GetMapping("/humansByName")
     fun humansByName(name: String) = humanRepository.humansByName(name)
@@ -42,4 +45,9 @@ class FunctionController(
     fun modifyCharacterStat(character: Int, type: Int, value: Int) {
         characterStatRepository.modifyCharacterStat(character, type, value)
     }
+
+    @GetMapping("/tournament/artist/{id}")
+    fun tournamentsByArtist(@PathVariable id: Int) =
+        performanceRepository.findAllByArtist(id).map { tournamentWithLinksRepository.findById(it.tournament) }
+
 }
