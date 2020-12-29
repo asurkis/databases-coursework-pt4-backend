@@ -107,6 +107,9 @@ class IdController(
     @GetMapping("/characterStatType/{id}")
     fun characterStatTypeById(@PathVariable id: Int) = characterStatTypeRepository.findById(id)
 
+    @GetMapping("/characterStatType/set/{id}")
+    fun characterStatTypesByRuleSet(@PathVariable id: Int) = characterStatTypeRepository.findAllByRuleSet(id)
+
     @GetMapping("/characterStatType/all")
     fun allCharacterStatTypes() = characterStatTypeRepository.findAll()
 
@@ -127,6 +130,9 @@ class IdController(
 
     @GetMapping("/character/{id}")
     fun characterById(@PathVariable id: Int) = characterWithLinksRepository.findById(id)
+
+    @GetMapping("/character/set/{id}")
+    fun charactersByRuleSet(@PathVariable id: Int) = characterWithLinksRepository.findAllByRuleSet(id)
 
     @GetMapping("/character/all")
     fun allCharacters() = characterWithLinksRepository.findAll()
