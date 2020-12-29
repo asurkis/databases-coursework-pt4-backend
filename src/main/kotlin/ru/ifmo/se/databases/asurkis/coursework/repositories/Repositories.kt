@@ -24,6 +24,7 @@ interface CharacterStatWithTypeRepository : CrudRepository<CharacterStatWithType
 
 interface PerformanceRepository : CrudRepository<Performance, PerformancePK> {
     fun findAllByArtist(artist: Int): Iterable<Performance>
+    fun findAllByTournament(artist: Int): Iterable<Performance>
 }
 
 interface SponsorContractWithLinksRepository : CrudRepository<SponsorContractWithLinks, Int> {

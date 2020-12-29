@@ -17,7 +17,8 @@ class FunctionController(
     val playerRepository: PlayerRepository,
     val sponsorRepository: SponsorRepository,
     val performanceRepository: PerformanceRepository,
-    val tournamentWithLinksRepository: TournamentWithLinksRepository
+    val tournamentWithLinksRepository: TournamentWithLinksRepository,
+    val humanWithRolesRepository: HumanWithRolesRepository
 ) {
     @GetMapping("/humansByName")
     fun humansByName(name: String) = humanRepository.humansByName(name)
@@ -49,5 +50,9 @@ class FunctionController(
     @GetMapping("/tournament/artist/{id}")
     fun tournamentsByArtist(@PathVariable id: Int) =
         performanceRepository.findAllByArtist(id).map { tournamentWithLinksRepository.findById(it.tournament) }
+
+    @GetMapping("/artist/tournament/{id}")
+    fun artistsByTournament(@PathVariable id: Int) =
+        performanceRepository.findAllByArtist(id).map { humanWithRolesRepository.findById(it.artist) }
 
 }
