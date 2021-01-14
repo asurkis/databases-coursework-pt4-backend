@@ -45,8 +45,8 @@ class FunctionController(
         sponsorRepository.save(Sponsor(humanRepository.save(human).id))
 
     @PostMapping("/characterStat/modify")
-    fun modifyCharacterStat(character: Int, type: Int, value: Int) {
-        characterStatRepository.modifyCharacterStat(character, type, value)
+    fun modifyCharacterStat(triplet: CharacterStat) {
+        characterStatRepository.modifyCharacterStat(triplet.character, triplet.type, triplet.value)
     }
 
     @GetMapping("/tournament/artist/{id}")
